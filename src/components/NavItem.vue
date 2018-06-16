@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Bus from '../common/bus.js'
+
 export default {
   name: 'NavItem',
   data () { 
@@ -16,7 +16,7 @@ export default {
   },
   methods:{
     receivedClickItem(id){
-      Bus.$emit("clickItem",id)
+      this.$emit("clickItemNav",id)
     }
   },
   props:["itemImageUrl","itemImageText","name"]

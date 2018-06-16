@@ -5,7 +5,7 @@
         :name="item.id" 
         :itemImageUrl="item.itemImageUrl" 
         :itemImageText="item.itemName" 
-        @clickItem="clickItemFuc"
+        @clickItemNav="clickItemFuc"
         class="navItem">
       </NavItem>
   </div>
@@ -22,7 +22,7 @@ export default {
   },
   methods:{
     clickItemFuc(id){
-      // console.log(id)
+      this.$emit("clickItem",id)
     }
   },
   props:["itemList"],

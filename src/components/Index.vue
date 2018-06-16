@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <Nav :itemList="itemList">
+    <Nav :itemList="itemList" @clickItem="clickItemIndex">
     </Nav>
     <div>
       <Left></Left>
@@ -29,14 +29,31 @@ export default {
     }
   },
   mounted: function () {
-      // 用$on事件来接收参数
-      Bus.$on('clickItem', (data) => {
-        console.log("data"+data)
-      })
     },
   methods:{
     clickItemIndex(id){
-      console.log(id)
+      switch(id){
+        case 'conn':
+          console.log(this)
+          this.clickConn();
+          break;
+        case 'search':
+          this.clickSearch();
+          break;
+        case 'doc':
+          this.clickDoc();
+          break;
+      }
+    },
+    clickSearch(){
+      this.$alert('search111');
+
+    },
+    clickDoc(){
+      this.$alert("doc111");
+    },
+    clickConn(){
+      this.$alert("conn111");
     }
   },
   components:{Nav,Left,Main}
