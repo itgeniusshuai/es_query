@@ -21,9 +21,9 @@ export default {
   data () {
     return {
       itemList: [
-        {"itemImageUrl":"@/assets/conn.png","itemName":"连接","id":"conn"},
-        {"itemImageUrl":"@/assets/doc.png","itemName":"文档","id":"doc"},
-        {"itemImageUrl":"@/assets/search.png","itemName":"查询","id":"search"},
+        {"itemImageUrl":require("./../assets/conn.png"),"itemName":"连接","id":"conn"},
+        {"itemImageUrl":require("./../assets/doc.png"),"itemName":"文档","id":"doc"},
+        {"itemImageUrl":require("./../assets/search.png"),"itemName":"查询","id":"search"},
       ]
     }
   },

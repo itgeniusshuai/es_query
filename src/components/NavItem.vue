@@ -1,16 +1,21 @@
 <template>
-  <div class="nav_item">
-    <img :src="itemImageUrl" />
-    <div>{{itemImageText}}</div>
+  <div class="nav_item" @click="receivedClickItem(name)">
+    <img :src="itemImageUrl" class="itemImg"/>
+    <div class="itemText">{{itemImageText}}</div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'NavItem',
-  data () {
+  data () { 
     return {
       msg: 'Welcome to Your Vue.js App'
+    }
+  },
+  methods:{
+    receivedClickItem(id){
+      this.$emit("clickItem",id)
     }
   },
   props:["itemImageUrl","itemImageText","name"]
@@ -19,7 +24,20 @@ export default {
 
 <style scoped>
   .nav_item{
-    height: 130px;
-    width: 100px;
+    height: 80px;
+    width: 50px;
+  }
+  .itemImg{
+    height: 50px;
+    width: 50px;
+    margin-bottom: 0;
+  }
+  .itemText{
+    height: 20px;
+    width: 50px;
+    text-align: center;
+    line-height:20px;
+    font-size: 12px;
+    margin-top: 0px;
   }
 </style>
