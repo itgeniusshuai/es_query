@@ -22,7 +22,7 @@ export default {
   },
   methods:{
     clickItemFuc(id){
-      console.log(id)
+      // console.log(id)
     }
   },
   props:["itemList"],
@@ -32,7 +32,8 @@ export default {
 
 <style scoped>
   .nav{
-    height: 70px;
+    height: 90px;
+    background-color: gainsboro;
   }
   .navItem{
     float: left;
