@@ -68,9 +68,10 @@ export default {
     display: block;
     width: 200px;
     height: 600px;
+    padding-top:5px;
     background-color: aliceblue;
   }
   .connList{
-    margin-top:10px;
+    background-color: aliceblue;
   }
 </style>
