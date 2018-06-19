@@ -1,0 +1,36 @@
+<template>
+  <div class="treeNode">
+    <img :src="nodeIcon" class="nodeIcon"/>
+    <div class="nodeName">{{nodeName}}</div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'TreeNode',
+  data () {
+    return {
+      
+    }
+  },
+  props:["nodeName","nodeIcon"]
+}
+</script>
+
+<style scoped>
+    .treeNode{
+        height: 18px;
+    }
+    .nodeIcon{
+        height: 18px;
+        width: 18px;
+        float: left;
+    }
+    .nodeName{
+        margin-left: 10px;
+        height: 18px;
+        font-size: 12px;
+        line-height: 18px;
+        float: left;
+    }
+</style>

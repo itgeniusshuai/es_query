@@ -9,7 +9,8 @@
     <div id="connDiv">
       <el-dialog title="新建连接" :visible.sync="connDialogVisible" custom-class="connDialog" width="400px">
         <div>
-
+          ip:<el-input></el-input>
+          port:<el-input></el-input>
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="connDialogVisible = false" size="small" class="btn">取 消</el-button>
