@@ -9,8 +9,8 @@
     <div id="connDiv">
       <el-dialog title="新建连接" :visible.sync="connDialogVisible" custom-class="connDialog" width="400px">
         <div>
-          ip:<el-input></el-input>
-          port:<el-input></el-input>
+          ip:<el-input :name="ip"></el-input>
+          port:<el-input :name="port"></el-input>
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="connDialogVisible = false" size="small" class="btn">取 消</el-button>
@@ -35,16 +35,8 @@ export default {
   data () {
     return {
       connDialogVisible:false,
-      form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
+      name:'',
+      port:'',
       formLabelWidth: '120px',
       itemList: [
         {"itemImageUrl":require("./../assets/conn.png"),"itemName":"连接","id":"conn"},

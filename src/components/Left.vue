@@ -25,16 +25,22 @@ export default {
         return {
           id:100,
           connData:[
-            {
-              "id":2,
-              "label":"10.70.93.52:9200",
-              "type":"conn",
-              "value":"10.70.93.52:9200",
-              "icon":require('../assets/conn.png')
-            }
+            
           ]
         }
     },
+  mounted:function(){
+    Bus.$on('createConn',function(connStr){
+      let newConn = {
+              "id":2,
+              "label":connStr,
+              "type":"conn",
+              "value":connStr,
+              "icon":require('../assets/conn.png')
+            }
+      this.connData.push(newConn);
+    })
+  },
   components:{TreeNode},
   methods: {
       handleNodeClick(data){
