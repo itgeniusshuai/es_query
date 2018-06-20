@@ -1,7 +1,9 @@
 <template>
   <div class="treeNode">
     <img :src="nodeIcon" class="nodeIcon"/>
-    <div class="nodeName">{{nodeName}}</div>
+    <el-tooltip class="nodeName" :content='nodeName' placement="right">
+        <span>{{nodeName}}</span>
+    </el-tooltip>
   </div>
 </template>
 
@@ -20,6 +22,8 @@ export default {
 <style scoped>
     .treeNode{
         height: 18px;
+        width: 280px;
+        padding-right: 10px;
     }
     .nodeIcon{
         height: 18px;
@@ -29,8 +33,10 @@ export default {
     .nodeName{
         margin-left: 10px;
         height: 18px;
+        width:200px;
         font-size: 12px;
         line-height: 18px;
         float: left;
+        overflow:hidden;
     }
 </style>

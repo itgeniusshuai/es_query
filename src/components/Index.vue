@@ -2,8 +2,8 @@
   <div class="index">
     <Nav :itemList="itemList" @clickItem="clickItemIndex">
     </Nav>
-    <div>
-      <Left></Left>
+    <div class="content">
+      <Left class="left"></Left>
       <Main></Main>
     </div>
     <div id="connDiv">
@@ -95,4 +95,7 @@ export default {
   #connDiv .el-dialog__title {
     font-size:12px!important;
     }
+  #connDiv .content{
+    overflow: hidden;
+  }
 </style>
