@@ -9,12 +9,12 @@
     <div id="connDiv">
       <el-dialog title="新建连接" :visible.sync="connDialogVisible" custom-class="connDialog" width="400px">
         <div>
-          ip:<el-input :name="ip"></el-input>
-          port:<el-input :name="port"></el-input>
+          ip:<el-input v-model="ip"></el-input>
+          port:<el-input v-model="port"></el-input>
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="connDialogVisible = false" size="small" class="btn">取 消</el-button>
-          <el-button type="primary" @click="connDialogVisible = false" plain size="small" class="btn">确 定</el-button>
+          <el-button type="primary" @click="createConn" plain size="small" class="btn">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -35,7 +35,7 @@ export default {
   data () {
     return {
       connDialogVisible:false,
-      name:'',
+      ip:'',
       port:'',
       formLabelWidth: '120px',
       itemList: [
@@ -69,6 +69,13 @@ export default {
     },
     clickConn(){
       this.connDialogVisible = true
+    },
+    createConn(){
+      let ip = this.ip;
+      let port = this.port;
+      let connStr = ip+':'+port
+      Bus.$emit('createConn',connStr)
+      this.connDialogVisible = false
     }
   },
   components:{Nav,Left,Main}

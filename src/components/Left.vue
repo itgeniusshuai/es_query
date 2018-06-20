@@ -18,6 +18,8 @@ import TreeNode from './TreeNode'
 import {IsNullOrUndefined} from '../common/common.js'
 import {get} from '../common/http.js'
 import Bus from '../common/bus'
+import { Loading } from 'element-ui';
+import {sleep} from '../common/common.js'
 
 export default {
   name: 'Left',
@@ -30,7 +32,7 @@ export default {
         }
     },
   mounted:function(){
-    Bus.$on('createConn',function(connStr){
+    Bus.$on('createConn',(connStr)=>{
       let newConn = {
               "id":2,
               "label":connStr,
@@ -43,10 +45,17 @@ export default {
   },
   components:{TreeNode},
   methods: {
-      handleNodeClick(data){
+      handleNodeClick(data){ 
         switch(data.type){
           case 'conn':
             if (IsNullOrUndefined(data.children)){
+              const loading = Loading.service({
+                  lock: true,
+                  text: 'Loading',
+                  spinner: 'el-icon-loading',
+                  background: 'rgba(0, 0, 0, 0.7)'
+              })
+              sleep(2000)
               // 发送请求查看所有索引
               let url = 'http://'+data.value + '/_cat/indices'
               let that = this
@@ -59,13 +68,16 @@ export default {
                   return index
                 })
                 this.$set(data, 'children', indexes);
+                loading.close() 
               }).catch((err)=>{
+                loading.close() 
                 this.$alert('连接失败')
               })
             }
             break
           case 'index':
             if (IsNullOrUndefined(data.children)){
+              let loading = Loading.service()
               // 发送请求查看所有索引
               let url = 'http://'+data.cvalue + '/'+data.value+'/_mappings'
               let that = this
@@ -76,20 +88,20 @@ export default {
                   let doc = { id:that.id++,cvalue:data.cvalue,ivalue:data.value,label: docName,value:docName,'type':'doc',"icon":require('../assets/doc.png')};
                   return doc
                 })
+                loading.close()
                 this.$set(data, 'children', docs);
               }).catch((err)=>{
+                loading.close()
                 this.$alert('连接失败')
               })
             }
             break;
           case 'doc':
-
             let url = 'http://' + data.cvalue + '/' + data.ivalue + '/' + data.value + '/_search'
-            Bus.$emit('searchDocs',url)
-            
+            Bus.$emit('searchDocs',url)   
             break
         }
-          
+        
       }
   }
 }

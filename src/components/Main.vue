@@ -7,6 +7,8 @@
 <script>
 import Bus from '../common/bus'
 import {get} from '../common/http.js'
+import { Loading } from 'element-ui';
+
 
 export default {
   name: 'HelloWorld',
@@ -22,6 +24,11 @@ export default {
   },
   methods:{
     searchDocs(url){
+      let loading = this.$loading({
+                text: 'Loading',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+              });
       let that = this
       get(url).then((res)=>{
         let rrs = res.hits.hits
@@ -29,8 +36,10 @@ export default {
         //   item = hit._source
         //   return item
         // })var jsonData = JSON.stringify(data, null, 4)
+        loading.close()
         that.items = rrs
       }).catch((err)=>{
+        loading.close()
         this.$alert('连接失败')
       })
     }
