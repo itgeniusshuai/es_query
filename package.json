@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.4.1",
+    "jquery.json-viewer": "^1.1.0",
     "lodash": "^4.17.10",
     "message": "0.0.1",
     "message-box": "^0.2.0",

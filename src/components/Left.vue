@@ -41,7 +41,13 @@ export default {
               "icon":require('../assets/conn.png')
             }
       this.connData.push(newConn);
+      // 存入localstorage
+      localStorage.connData = JSON.stringify(this.connData)
     })
+    if(!IsNullOrUndefined(localStorage.connData)){
+      console.log(localStorage.connData.keys)
+      this.connData = JSON.parse(localStorage.connData)
+    }
   },
   components:{TreeNode},
   methods: {
@@ -49,7 +55,7 @@ export default {
         switch(data.type){
           case 'conn':
             if (IsNullOrUndefined(data.children)){
-              const loading = Loading.service({
+              const ld = Loading.service({
                   lock: true,
                   text: 'Loading',
                   spinner: 'el-icon-loading',
@@ -68,9 +74,9 @@ export default {
                   return index
                 })
                 this.$set(data, 'children', indexes);
-                loading.close() 
+                ld.close() 
               }).catch((err)=>{
-                loading.close() 
+                ld.close() 
                 this.$alert('连接失败')
               })
             }
@@ -97,8 +103,8 @@ export default {
             }
             break;
           case 'doc':
-            let url = 'http://' + data.cvalue + '/' + data.ivalue + '/' + data.value + '/_search'
-            Bus.$emit('searchDocs',url)   
+            
+            Bus.$emit('searchDocs',data.cvalue,data.ivalue,data.value)   
             break
         }
         

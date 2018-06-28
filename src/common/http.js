@@ -18,7 +18,7 @@ function request(url,params,method){
         case 'get':
           res =  axios.get(url, {
             params: params,
-          })
+          },{timeout:1000*10})
           break;
         case 'post':
           res =  axios({
@@ -26,7 +26,7 @@ function request(url,params,method){
             url: url,
             data: params,
             headers: { 'content-type': 'application/x-www-form-urlencoded'},
-          });
+          },{timeout:1000*10});
           break;
         case 'delete':
           res =  axios.delete(url, {
