@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <el-tabs v-model="editableTabsValue" type="card" closable @edit="handleTabsEdit" >
+    <el-tabs v-model="editableTabsValue" type="card" closable @tab-click="tabClick">
       <el-tab-pane
         :key="item.name"
         v-for="(item) in editableTabs"
@@ -8,28 +8,28 @@
         :name="item.name"
       >
         <el-table
-          :data="items[item.name]"
+          :data="currentItems"
           style="width: 100%;font-size=12px;"
           border
           :cell-style="rowStyle"
-          height="750px">
+          >
               <el-table-column
                 show-overflow-tooltip
                 sortable
                 :prop="k"
                 :label="k"
-                width="90" v-for="(v,k) in (items[item.name][0])" :key="k">
+                width="90" v-for="(v,k) in (currentItems[0])" :key="k">
               </el-table-column>
               
         </el-table>
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
-          :current-page="currentPage4"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
+          :current-page="tabPageInfo[item.name].currentPage"
+          :page-sizes="[10, 20, 30, 50]"
+          :page-size="tabPageInfo[item.name].pageSize"
           layout="total, sizes, prev, pager, next, jumper"
-          :total="400">
+          :total="tabPageInfo[item.name].totalNum">
         </el-pagination>
       </el-tab-pane>
     </el-tabs>
@@ -46,24 +46,46 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
+      currentItems:[],
       items:{},
       editableTabsValue: '2',
       editableTabs: [],
       tabIndex: 1,
       rowStyle:{
         padding:"8px 0"
+      },
+      defaultPageSize:10,
+      tabPageInfo:{},
+      tabRelation:{
+
       }
     }
   },
   mounted:function() {
+    let that = this
     Bus.$on('searchDocs',(cvalue,ivalue,value) => {
-      this.searchDocs(cvalue,ivalue,value)
+      this.searchDocs(cvalue,ivalue,value,1,that.defaultPageSize)
     })
   },
   methods:{
-   
-    searchDocs(cvalue,ivalue,value){
-      let url = 'http://' + cvalue + '/' + ivalue + '/' + value + '/_search'
+    handleSizeChange(size){
+      let tabName = this.editableTabsValue
+      let ivalue = this.tabRelation[tabName].ivalue
+      let cvalue = this.tabRelation[tabName].cvalue
+      let value = this.tabRelation[tabName].value
+      let currentPage = this.tabPageInfo[tabName].currentPage
+      this.searchDocs(cvalue,ivalue,value,currentPage,size)
+    },
+    handleCurrentChange(currentPage){
+      let tabName = this.editableTabsValue
+      let ivalue = this.tabRelation[tabName].ivalue
+      let cvalue = this.tabRelation[tabName].cvalue
+      let value = this.tabRelation[tabName].value
+      let pageSize = this.tabPageInfo[tabName].pageSize
+      this.searchDocs(cvalue,ivalue,value,currentPage,pageSize)
+    },
+    searchDocs(cvalue,ivalue,value,currentPage,size){
+      let url = 'http://' + cvalue + '/' + ivalue + '/' + value + '/_search?from='+(currentPage-1)*size+"&size="+size
       let loading = this.$loading({
                 text: 'Loading',
                 spinner: 'el-icon-loading',
@@ -78,6 +100,7 @@ export default {
         })
         loading.close()
         let tabName = value+"@"+cvalue+":"+ivalue
+        that.currentItems = its
         that.items[tabName] = its
         // 获取所有tabName
         let tabNames = that.editableTabs.map((v)=>{
@@ -94,40 +117,30 @@ export default {
           that.tabIndex = tabIndex
         }
         that.editableTabsValue = tabName
+
+        // 分页信息
+        let pageInfo = {}
+        pageInfo.totalNum = res.hits.total
+        pageInfo.currentPage = currentPage
+        pageInfo.pageSize = size
+        that.tabPageInfo[tabName] = pageInfo
+        // tab页对应的连接信息
+        let connInfo = {}
+        connInfo.ivalue = ivalue
+        connInfo.cvalue = cvalue
+        connInfo.value = value
+        that.tabRelation[tabName] = connInfo
+
+
       }).catch((err)=>{
         console.log(err)
         loading.close()
         this.$alert('连接失败')
       })
     },
-    handleTabsEdit(targetName, action) {
-        if (action === 'add') {
-          let newTabName = ++this.tabIndex + '';
-          this.editableTabs.push({
-            title: 'New Tab',
-            name: newTabName,
-            content: 'New Tab content'
-          });
-          this.editableTabsValue = newTabName;
-        }
-        if (action === 'remove') {
-          let tabs = this.editableTabs;
-          let activeName = this.editableTabsValue;
-          if (activeName === targetName) {
-            tabs.forEach((tab, index) => {
-              if (tab.name === targetName) {
-                let nextTab = tabs[index + 1] || tabs[index - 1];
-                if (nextTab) {
-                  activeName = nextTab.name;
-                }
-              }
-            });
-          }
-          
-          this.editableTabsValue = activeName;
-          this.editableTabs = tabs.filter(tab => tab.name !== targetName);
-        }
-      }
+    tabClick(targetName){
+      this.currentItems = this.items[targetName.name]
+    }     
   }
 }
 </script>
