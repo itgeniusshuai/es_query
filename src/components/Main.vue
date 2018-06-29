@@ -7,7 +7,7 @@
         :label="item.title"
         :name="item.name"
       >
-        <div style="height:510px;overflow:scroll">
+        <div style="height:570px;overflow:scroll;padding-right:20px">
           <el-table
             :data="currentItems"
             style="width: 100%;font-size=12px;"
@@ -148,7 +148,7 @@ export default {
 <style scoped>
   .main{
     margin-left: 310px;
-    height: 600px;
+    height: 700px;
     overflow: auto;
   }
   .row{

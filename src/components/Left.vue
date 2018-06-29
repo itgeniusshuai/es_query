@@ -117,7 +117,7 @@ export default {
   .left{
     display: block;
     width: 300px;
-    height: 600px;
+    height: 650px;
     padding-top:5px;
     background-color: aliceblue;
     float: left;
