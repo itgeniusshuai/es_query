@@ -115,7 +115,7 @@ export default {
   .left{
     display: block;
     width: 300px;
-    height: 650px;
+    height: 670px;
     padding-top:5px;
     background-color: aliceblue;
     float: left;
@@ -124,7 +124,7 @@ export default {
   .connList{
     background-color: aliceblue;
     width: 300px;
-    height: 600px;
+    height: 650px;
     min-width: 100px;
     resize:horizontal;
     overflow: scroll;

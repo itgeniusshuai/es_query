@@ -1,7 +1,7 @@
 <template>
   <div class="treeNode">
     <img :src="nodeIcon" class="nodeIcon"/>
-    <el-tooltip class="nodeName" :content='nodeName' placement="right" >
+    <el-tooltip class="nodeName" :content='nodeName' placement="right" :open-delay="openDelay">
         <span>{{nodeName}}</span>
     </el-tooltip>
   </div>
@@ -12,7 +12,7 @@ export default {
   name: 'TreeNode',
   data () {
     return {
-      
+      openDelay:2000
     }
   },
   props:["nodeName","nodeIcon"]
