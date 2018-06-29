@@ -10,8 +10,7 @@
         <div style="height:570px;overflow:scroll;padding-right:20px">
           <el-table
             :data="currentItems"
-            style="width: 100%;font-size=12px;"
-            border
+            style="font-size=12px;"
             :cell-style="rowStyle"
             >
                 <el-table-column
@@ -19,6 +18,7 @@
                   sortable
                   :prop="k"
                   :label="k"
+                  width="150"
                   v-for="(v,k) in (currentItems[0])" :key="k">
                 </el-table-column>
                 
@@ -54,7 +54,7 @@ export default {
       editableTabs: [],
       tabIndex: 1,
       rowStyle:{
-        padding:"8px 0"
+        padding:"8px 0",
       },
       defaultPageSize:10,
       tabPageInfo:{},
@@ -147,15 +147,19 @@ export default {
 
 <style scoped>
   .main{
-    margin-left: 310px;
+    margin-left: 10px;
     height: 700px;
     overflow: auto;
+    padding-left: 20px;
   }
   .row{
     height: 12px;
   }
   .el-table{
     font-size: 10px;
+  }
+  .el-table::before{
+    width: auto;
   }
 
 </style>

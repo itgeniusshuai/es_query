@@ -1,5 +1,4 @@
 <template>
-  <div class="left">
     <el-tree
       :data="connData"
       node-key="id"
@@ -10,7 +9,6 @@
       >
         <TreeNode :nodeName="node.label" :nodeIcon="node.icon" slot-scope="{ node, data }"></TreeNode>
     </el-tree>
-  </div>
 </template>
 
 <script>
@@ -121,11 +119,14 @@ export default {
     padding-top:5px;
     background-color: aliceblue;
     float: left;
-    overflow: auto;
+    overflow: hidden;
   }
   .connList{
     background-color: aliceblue;
     width: 300px;
     height: 600px;
+    min-width: 100px;
+    resize:horizontal;
+    overflow: scroll;
   }
 </style>

@@ -22,7 +22,7 @@ export default {
 <style scoped>
     .treeNode{
         height: 18px;
-        width: 280px;
+        /* width: 280px; */
         padding-right: 10px;
     }
     .nodeIcon{
@@ -33,10 +33,11 @@ export default {
     .nodeName{
         margin-left: 10px;
         height: 18px;
-        width:200px;
+        /* width:200px; */
         font-size: 12px;
         line-height: 18px;
-        float: left;
+        /* float: left; */
         overflow:hidden;
+        display: inline-block;
     }
 </style>
