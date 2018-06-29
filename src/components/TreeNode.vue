@@ -1,7 +1,7 @@
 <template>
   <div class="treeNode">
     <img :src="nodeIcon" class="nodeIcon"/>
-    <el-tooltip class="nodeName" :content='nodeName' placement="right">
+    <el-tooltip class="nodeName" :content='nodeName' placement="right" >
         <span>{{nodeName}}</span>
     </el-tooltip>
   </div>

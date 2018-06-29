@@ -7,18 +7,20 @@
         :label="item.title"
         :name="item.name"
       >
-        <div style="height:570px;overflow:scroll;padding-right:20px">
+        <div style="height:570px;overflow:scroll;padding-right:20px" class="tableDivClass">
           <el-table
             :data="currentItems"
             style="font-size=12px;"
-            :cell-style="rowStyle"
+            :cell-style="cellStyle"
+            border
+            :header-cell-style="headerCellStyle"
             >
                 <el-table-column
                   show-overflow-tooltip
                   sortable
                   :prop="k"
                   :label="k"
-                  width="150"
+                  width="150px"
                   v-for="(v,k) in (currentItems[0])" :key="k">
                 </el-table-column>
                 
@@ -53,8 +55,14 @@ export default {
       editableTabsValue: '2',
       editableTabs: [],
       tabIndex: 1,
-      rowStyle:{
+      cellStyle:{
         padding:"8px 0",
+      },
+      headerRowStyle:{
+        border:"1px solid #0f0"
+      },
+      headerCellStyle:{
+        borderTop:"1px solid #ebeef5"
       },
       defaultPageSize:10,
       tabPageInfo:{},
@@ -161,5 +169,20 @@ export default {
   .el-table::before{
     width: auto;
   }
+  .el-table--border::after{
+    background-color: white
+  }
+.el-table--border, .el-table--group{
+  border-top: none
+}
+.el-table tr{
+  border:"1px solid #e0f" !important;
+}
+.tableDivClass th {
+  border:"1px solid #000" !important;
+}
+.headerCell{
+  border-top: "1px solid #eee" !important;
+}
 
 </style>
