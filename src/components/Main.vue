@@ -7,21 +7,23 @@
         :label="item.title"
         :name="item.name"
       >
-        <el-table
-          :data="currentItems"
-          style="width: 100%;font-size=12px;"
-          border
-          :cell-style="rowStyle"
-          >
-              <el-table-column
-                show-overflow-tooltip
-                sortable
-                :prop="k"
-                :label="k"
-                width="90" v-for="(v,k) in (currentItems[0])" :key="k">
-              </el-table-column>
-              
-        </el-table>
+        <div style="height:510px;overflow:scroll">
+          <el-table
+            :data="currentItems"
+            style="width: 100%;font-size=12px;"
+            border
+            :cell-style="rowStyle"
+            >
+                <el-table-column
+                  show-overflow-tooltip
+                  sortable
+                  :prop="k"
+                  :label="k"
+                  v-for="(v,k) in (currentItems[0])" :key="k">
+                </el-table-column>
+                
+          </el-table>
+        </div>
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -56,9 +58,7 @@ export default {
       },
       defaultPageSize:10,
       tabPageInfo:{},
-      tabRelation:{
-
-      }
+      tabRelation:{}
     }
   },
   mounted:function() {
