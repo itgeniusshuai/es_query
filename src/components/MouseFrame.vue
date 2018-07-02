@@ -27,19 +27,19 @@ export default {
      this.$emit("hiddenRightMouse")
    },
    deleteF(){
-    this.$emit("deleteFunc",this.cData)
+    this.$emit("deleteFunc",this.cData,this.handleType)
    },
    editF(){
-    this.$emit("editFunc",this.cData,this.srcElement,this.target)
-   },
+      this.$emit("editFunc",this.cData,this.srcElement,this.target,this.handleType)
+    },
    editConnF(){
-    Bus.$emit("editConnFunc",this.cData,this.srcElement,this.target)
+      Bus.$emit("editConnFunc",this.cData,this.srcElement,this.target,this.handleType)
    },
    addF(){
-     this.$emit("addFunc")
+        this.$emit("addFunc",this.handleType)
    }
   },
-  props:["isShowMenu","menuLeft","menuTop","cData","srcElement","target"]
+  props:["isShowMenu","menuLeft","menuTop","cData","srcElement","target","handleType"]
 }
 </script>
 

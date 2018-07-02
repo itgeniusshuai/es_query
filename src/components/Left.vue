@@ -18,6 +18,7 @@
       @deleteFunc="deleteFunc"
       @addFunc="addFunc"
       @editFunc="editFunc"
+      :handleType='handleType'
       :cData="cData"
       :target="target"
       :src-element="srcElement"
@@ -48,7 +49,8 @@ export default {
           ],
           cData:'',
           srcElement:'',
-          target:''
+          target:'',
+          handleType:''
         }
     },
   mounted:function(){
@@ -81,7 +83,7 @@ export default {
   },
   components:{TreeNode,MouseFrame},
   methods: {
-      editFunc(data,srcElement,target){
+      editFunc(data,srcElement,target,handleType){
         let that = this
         srcElement.removeAttribute("readOnly")
         let cf = target.handleClick
@@ -99,10 +101,10 @@ export default {
           target.handleClick = cf
         }
       },
-      addFunc(){
+      addFunc(handleType){
         Bus.$emit("clickConn")
       },
-      deleteFunc(data){
+      deleteFunc(data,handleType){
         let delIndex = this.connData.indexOf(data)
         let d = this.connData.splice(delIndex,1)
         this.$set(this.connData,d)
@@ -124,8 +126,7 @@ export default {
         this.cData = data
         this.srcElement = event.srcElement
         this.target = target
-
-        
+        this.handleType = data.type
       },
       handleNodeClick(data,node,target){ 
         switch(data.type){
