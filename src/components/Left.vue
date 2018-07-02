@@ -1,4 +1,5 @@
 <template>
+  <div class="left">
     <el-tree
       :data="connData"
       node-key="id"
@@ -6,9 +7,12 @@
       class="connList"
       @node-click="handleNodeClick"
       highlight-current
+      @node-contextmenu="handleRightClick"
       >
         <TreeNode :nodeName="node.label" :nodeIcon="node.icon" slot-scope="{ node, data }"></TreeNode>
     </el-tree>
+   <mouse-frame :menuLeft="menuLeft" :menu-top="menuTop" :is-show-menu="isShowMenu"></mouse-frame>
+  </div>
 </template>
 
 <script>
@@ -18,12 +22,17 @@ import {get} from '../common/http.js'
 import Bus from '../common/bus'
 import { Loading } from 'element-ui';
 import {sleep} from '../common/common.js'
+import MouseFrame from './MouseFrame.vue'
 
 export default {
   name: 'Left',
       data() {
         return {
           id:100,
+          isShowMenu:false,
+          menuPosition:"absolute",
+          menuLeft:0,
+          menuTop:0,
           connData:[
             
           ]
@@ -47,8 +56,30 @@ export default {
       this.connData = JSON.parse(localStorage.connData)
     }
   },
-  components:{TreeNode},
+  components:{TreeNode,MouseFrame},
   methods: {
+      showMenu(){
+
+      },
+      hiddenMenu(){
+        
+      },
+      handleRightClick(event,data,node,target){
+        console.log(event)
+        console.log(node)
+        console.log(data)
+        console.log(target)
+        // 获取鼠标位置
+        let x = event.clientX
+        let y = event.clientY
+        // 计算菜单位置
+        x = x +10
+        this.isShowMenu = true
+        this.menuLeft = x
+        this.menuTop = y
+
+        
+      },
       handleNodeClick(data){ 
         switch(data.type){
           case 'conn':
@@ -113,20 +144,28 @@ export default {
 
 <style scoped>
   .left{
-    display: block;
+    /* display: block; */
     width: 300px;
     height: 670px;
     padding-top:5px;
     background-color: aliceblue;
     float: left;
-    overflow: hidden;
+    overflow: auto;
+    resize:horizontal;
   }
   .connList{
     background-color: aliceblue;
-    width: 300px;
-    height: 650px;
-    min-width: 100px;
-    resize:horizontal;
-    overflow: scroll;
+    /* width: 300px; */
+    /* height: 650px; */
+    /* min-width: 100px; */
+    /* resize:horizontal; */
+    /* overflow: scroll; */
+    margin: 0 0;
+  }
+  .mouse{
+    position: absolute;
+    left: 0;
+    top: 0;
+    
   }
 </style>
