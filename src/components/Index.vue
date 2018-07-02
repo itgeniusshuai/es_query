@@ -9,6 +9,7 @@
     <div id="connDiv">
       <el-dialog title="新建连接" :visible.sync="connDialogVisible" custom-class="connDialog" width="400px">
         <div>
+          连接名称:<el-input v-model="connName"></el-input>
           ip:<el-input v-model="ip"></el-input>
           port:<el-input v-model="port"></el-input>
         </div>
@@ -37,12 +38,13 @@ export default {
       connDialogVisible:false,
       ip:'',
       port:'',
+      connName:"",
       formLabelWidth: '120px',
       itemList: [
         {"itemImageUrl":require("./../assets/conn.png"),"itemName":"连接","id":"conn"},
         {"itemImageUrl":require("./../assets/doc.png"),"itemName":"文档","id":"doc"},
         {"itemImageUrl":require("./../assets/search.png"),"itemName":"查询","id":"search"},
-      ]
+      ],
     }
   },
   mounted: function () {
@@ -77,7 +79,7 @@ export default {
       let ip = this.ip;
       let port = this.port;
       let connStr = ip+':'+port
-      Bus.$emit('createConn',connStr)
+      Bus.$emit('createConn',connStr,this.connName)
       this.connDialogVisible = false
     }
   },

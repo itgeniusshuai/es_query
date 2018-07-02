@@ -5,7 +5,7 @@
       node-key="id"
       :expand-on-click-node="true"
       class="connList"
-      @node-click="handleNodeClick"
+      @dblclick.native="handleNodeClick"
       highlight-current
       @node-contextmenu="handleRightClick"
       >
@@ -53,10 +53,10 @@ export default {
     },
   mounted:function(){
     let that = this
-    Bus.$on('createConn',(connStr)=>{
+    Bus.$on('createConn',(connStr,connName)=>{
       let newConn = {
               "id":that.id++,
-              "label":connStr,
+              "label":connName,
               "type":"conn",
               "value":connStr,
               "icon":require('../assets/conn.png')
@@ -120,9 +120,6 @@ export default {
         
       },
       handleNodeClick(data,node,target){ 
-        console.log(data)
-        console.log(node)
-        console.log(target)
         switch(data.type){
           case 'conn':
             if (IsNullOrUndefined(data.children)){
@@ -197,11 +194,6 @@ export default {
   }
   .connList{
     background-color: aliceblue;
-    /* width: 300px; */
-    /* height: 650px; */
-    /* min-width: 100px; */
-    /* resize:horizontal; */
-    /* overflow: scroll; */
     margin: 0 0;
   }
   .mouse{
