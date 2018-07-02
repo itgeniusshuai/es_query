@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Message } from 'element-ui';
 import router from '../router/index'
 
-
+axios.defaults.timeout =  6000;
 
 export function post(url,params){
     return request(url,params,'post')

@@ -2,7 +2,7 @@
   <div class="treeNode">
     <img :src="nodeIcon" class="nodeIcon"/>
     <el-tooltip class="nodeName" :content='nodeName' placement="right" :open-delay="openDelay">
-        <span>{{nodeName}}</span>
+        <input :value="nodeName" readonly style="background:none;border:none"/>
     </el-tooltip>
   </div>
 </template>

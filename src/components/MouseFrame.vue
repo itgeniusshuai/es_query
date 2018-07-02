@@ -4,10 +4,9 @@
         <a class="btn" @click="deleteF()">删除</a>
         <a class="btn" @click="addF()">添加</a>
         <div class="hr"/>
-        <a class="btn" >删除</a>
-        <a class="btn" >添加</a>
+        <a class="btn" @click="editF()">编辑</a>
         <div class="hr"/>
-        <a class="btn">其他</a>
+        <a class="btn">取消</a>
     </div>
   </div>
 </template> 
@@ -29,11 +28,14 @@ export default {
    deleteF(){
     this.$emit("deleteFunc",this.cData)
    },
+   editF(){
+    this.$emit("editFunc",this.cData,this.srcElement,this.target)
+   },
    addF(){
-     Bus.$emit("clickConn")
+     this.$emit("addFunc")
    }
   },
-  props:["isShowMenu","menuLeft","menuTop","cData"]
+  props:["isShowMenu","menuLeft","menuTop","cData","srcElement","target"]
 }
 </script>
 
@@ -46,7 +48,7 @@ export default {
     top:0;
   }
   .mouse{
-    width: 130px;
+    width: 120px;
     position: absolute;
     border: 1px solid gray;
     background: gainsboro;
@@ -58,13 +60,13 @@ export default {
     padding-left: 20px;
     line-height: 20px;
     font-size: 14px;
-    width: 110px;
+    width: 100px;
     display: block;
     height: 20px;
     overflow: hidden;
   }
   .btn:hover{
-    background-color: #0ff;
+    background-color: rgb(57, 112, 230);
   }
   .hr{
     border-top: 2px solid gray;

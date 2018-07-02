@@ -17,7 +17,10 @@
       @hiddenRightMouse="hiddenRightMouse"
       @deleteFunc="deleteFunc"
       @addFunc="addFunc"
+      @editFunc="editFunc"
       :cData="cData"
+      :target="target"
+      :src-element="srcElement"
       ></mouse-frame>
   </div>
 </template>
@@ -43,13 +46,16 @@ export default {
           connData:[
             
           ],
-          cData:''
+          cData:'',
+          srcElement:'',
+          target:''
         }
     },
   mounted:function(){
+    let that = this
     Bus.$on('createConn',(connStr)=>{
       let newConn = {
-              "id":2,
+              "id":that.id++,
               "label":connStr,
               "type":"conn",
               "value":connStr,
@@ -67,8 +73,26 @@ export default {
   },
   components:{TreeNode,MouseFrame},
   methods: {
-      showMenu(){
-
+      editFunc(data,srcElement,target){
+        let that = this
+        srcElement.removeAttribute("readOnly")
+        let cf = target.handleClick
+        target.handleClick = function(){}
+        srcElement.focus()
+        srcElement.style.backgroundColor="rgb(57, 112, 230)"
+        srcElement.onblur=function(){
+          this.setAttribute("readOnly",true)
+          srcElement.style.backgroundColor="rgba(57, 112, 230,0)";
+          console.log(srcElement.value)
+          let editIndex = that.connData.indexOf(data)
+          data.label = srcElement.value
+          that.$set(that.connData[editIndex],data)
+          localStorage.connData = JSON.stringify(that.connData)
+          target.handleClick = cf
+        }
+      },
+      addFunc(){
+        Bus.$emit("clickConn")
       },
       deleteFunc(data){
         let delIndex = this.connData.indexOf(data)
@@ -80,6 +104,7 @@ export default {
         this.isShowMenu = false
       },
       handleRightClick(event,data,node,target){
+        console.log(data)
         // 获取鼠标位置
         let x = event.clientX
         let y = event.clientY
@@ -89,10 +114,15 @@ export default {
         this.menuLeft = x
         this.menuTop = y
         this.cData = data
+        this.srcElement = event.srcElement
+        this.target = target
 
         
       },
-      handleNodeClick(data){ 
+      handleNodeClick(data,node,target){ 
+        console.log(data)
+        console.log(node)
+        console.log(target)
         switch(data.type){
           case 'conn':
             if (IsNullOrUndefined(data.children)){
