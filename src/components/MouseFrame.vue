@@ -1,8 +1,8 @@
 <template>
-  <div class="mouseBorad" v-show="isShowMenu" @contextmenu.prevent="hiddenRightMouse" @click="hiddenRightMouse">
+  <div class="mouseBorad" v-show="isShowMenu" @contextmenu.prevent="hiddenMouse" @click="hiddenMouse">
     <div class="mouse" :style="{left:menuLeft+'px',top:menuTop+'px'}" v-show="isShowMenu">
-        <a class="btn" >删除</a>
-        <a class="btn" >添加</a>
+        <a class="btn" @click="deleteF()">删除</a>
+        <a class="btn" @click="addF()">添加</a>
         <div class="hr"/>
         <a class="btn" >删除</a>
         <a class="btn" >添加</a>
@@ -13,19 +13,27 @@
 </template> 
 
 <script>
+import Bus from '../common/bus'
 export default {
   name: 'MouseFrame',
+  mounted(){
+  },
   data () { 
     return {
-      
     }
   },
   methods:{
-   hiddenRightMouse(){
-     this.isShowMenu = false;
+   hiddenMouse(){
+     this.$emit("hiddenRightMouse")
+   },
+   deleteF(){
+    this.$emit("deleteFunc",this.cData)
+   },
+   addF(){
+     Bus.$emit("clickConn")
    }
   },
-  props:["isShowMenu","menuLeft","menuTop"]
+  props:["isShowMenu","menuLeft","menuTop","cData"]
 }
 </script>
 

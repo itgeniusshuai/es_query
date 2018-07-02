@@ -11,7 +11,14 @@
       >
         <TreeNode :nodeName="node.label" :nodeIcon="node.icon" slot-scope="{ node, data }"></TreeNode>
     </el-tree>
-   <mouse-frame :menuLeft="menuLeft" :menu-top="menuTop" :is-show-menu="isShowMenu"></mouse-frame>
+    <mouse-frame :menuLeft="menuLeft" 
+      :menu-top="menuTop" 
+      :is-show-menu="isShowMenu" 
+      @hiddenRightMouse="hiddenRightMouse"
+      @deleteFunc="deleteFunc"
+      @addFunc="addFunc"
+      :cData="cData"
+      ></mouse-frame>
   </div>
 </template>
 
@@ -35,7 +42,8 @@ export default {
           menuTop:0,
           connData:[
             
-          ]
+          ],
+          cData:''
         }
     },
   mounted:function(){
@@ -55,20 +63,23 @@ export default {
       console.log(localStorage.connData.keys)
       this.connData = JSON.parse(localStorage.connData)
     }
+  
   },
   components:{TreeNode,MouseFrame},
   methods: {
       showMenu(){
 
       },
-      hiddenMenu(){
-        
+      deleteFunc(data){
+        let delIndex = this.connData.indexOf(data)
+        let d = this.connData.splice(delIndex,1)
+        this.$set(this.connData,d)
+        localStorage.connData = JSON.stringify(this.connData)
+      },
+      hiddenRightMouse(){
+        this.isShowMenu = false
       },
       handleRightClick(event,data,node,target){
-        console.log(event)
-        console.log(node)
-        console.log(data)
-        console.log(target)
         // 获取鼠标位置
         let x = event.clientX
         let y = event.clientY
@@ -77,6 +88,7 @@ export default {
         this.isShowMenu = true
         this.menuLeft = x
         this.menuTop = y
+        this.cData = data
 
         
       },

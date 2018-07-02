@@ -46,6 +46,9 @@ export default {
     }
   },
   mounted: function () {
+    Bus.$on('clickConn',()=>{
+      this.clickConn()
+    })
     },
   methods:{
     clickItemIndex(id){
