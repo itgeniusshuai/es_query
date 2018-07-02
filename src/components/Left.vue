@@ -5,7 +5,7 @@
       node-key="id"
       :expand-on-click-node="true"
       class="connList"
-      @dblclick.native="handleNodeClick"
+      @node-click="handleNodeClick"
       highlight-current
       @node-contextmenu="handleRightClick"
       >
@@ -65,6 +65,14 @@ export default {
       // 存入localstorage
       localStorage.connData = JSON.stringify(this.connData)
     })
+
+    Bus.$on("updateConn" ,(connStr,connName,data)=>{
+      let cIndex = that.connData.indexOf(data)
+      data.label = connName
+      data.value = connStr
+      that.$set(that.connData[cIndex],data)
+    })
+
     if(!IsNullOrUndefined(localStorage.connData)){
       console.log(localStorage.connData.keys)
       this.connData = JSON.parse(localStorage.connData)

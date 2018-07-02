@@ -5,6 +5,7 @@
         <a class="btn" @click="addF()">添加</a>
         <div class="hr"/>
         <a class="btn" @click="editF()">编辑</a>
+        <a class="btn" @click="editConnF()">编辑连接</a>
         <div class="hr"/>
         <a class="btn">取消</a>
     </div>
@@ -30,6 +31,9 @@ export default {
    },
    editF(){
     this.$emit("editFunc",this.cData,this.srcElement,this.target)
+   },
+   editConnF(){
+    Bus.$emit("editConnFunc",this.cData,this.srcElement,this.target)
    },
    addF(){
      this.$emit("addFunc")

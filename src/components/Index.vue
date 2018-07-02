@@ -39,6 +39,8 @@ export default {
       ip:'',
       port:'',
       connName:"",
+      editType:'',
+      cData:'',
       formLabelWidth: '120px',
       itemList: [
         {"itemImageUrl":require("./../assets/conn.png"),"itemName":"连接","id":"conn"},
@@ -48,7 +50,16 @@ export default {
     }
   },
   mounted: function () {
+    Bus.$on('editConnFunc',(cData)=>{
+      this.editType = 'edit'
+      this.ip = cData.value.split(':')[0]
+      this.port = cData.value.split(':')[1]
+      this.connName = cData.label
+      this.cData = cData
+      this.clickConn()
+    })
     Bus.$on('clickConn',()=>{
+      this.editType = 'add'
       this.clickConn()
     })
     },
@@ -79,7 +90,12 @@ export default {
       let ip = this.ip;
       let port = this.port;
       let connStr = ip+':'+port
-      Bus.$emit('createConn',connStr,this.connName)
+      if(this.editType == 'add'){
+        Bus.$emit('createConn',connStr,this.connName)
+      }else{
+        Bus.$emit('updateConn',connStr,this.connName,this.cData)
+      }
+     
       this.connDialogVisible = false
     }
   },
