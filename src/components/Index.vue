@@ -84,6 +84,7 @@ export default {
       this.$alert("doc111");
     },
     clickConn(){
+      this.editType = 'add'
       this.connDialogVisible = true
     },
     createConn(){

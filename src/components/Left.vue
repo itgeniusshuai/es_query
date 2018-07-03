@@ -65,7 +65,7 @@ export default {
             }
       this.connData.push(newConn);
       // 存入localstorage
-      localStorage.connData = JSON.stringify(this.connData)
+      this.flushConnCache()
     })
 
     Bus.$on("updateConn" ,(connStr,connName,data)=>{
@@ -76,13 +76,24 @@ export default {
     })
 
     if(!IsNullOrUndefined(localStorage.connData)){
-      console.log(localStorage.connData.keys)
-      this.connData = JSON.parse(localStorage.connData)
+      let cDats = JSON.parse(localStorage.connData);
+      this.connData = cDats.map(function(e){
+        e.children = []
+        return e
+      })
+       
     }
   
   },
   components:{TreeNode,MouseFrame},
   methods: {
+      flushConnCache(){
+        // let tmpConnData = this.connData.map(function(e){
+        //   e.children = []
+        //   return e
+        // })
+        localStorage.connData = JSON.stringify(this.connData)
+      },
       editFunc(data,srcElement,target,handleType){
         let that = this
         srcElement.removeAttribute("readOnly")
@@ -97,7 +108,8 @@ export default {
           let editIndex = that.connData.indexOf(data)
           data.label = srcElement.value
           that.$set(that.connData[editIndex],data)
-          localStorage.connData = JSON.stringify(that.connData)
+
+          that.flushConnCache()
           target.handleClick = cf
         }
       },
@@ -108,7 +120,7 @@ export default {
         let delIndex = this.connData.indexOf(data)
         let d = this.connData.splice(delIndex,1)
         this.$set(this.connData,d)
-        localStorage.connData = JSON.stringify(this.connData)
+        this.flushConnCache()
       },
       hiddenRightMouse(){
         this.isShowMenu = false
