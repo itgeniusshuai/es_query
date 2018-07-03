@@ -2,7 +2,7 @@
   <div class="treeNode">
     <img :src="nodeIcon" class="nodeIcon"/>
     <el-tooltip class="nodeName" :content='nodeName' placement="right" :open-delay="openDelay">
-        <input :value="nodeName" readonly style="background:none;border:none"/>
+        <input :value="nodeName" readonly style="background:none;border:none;overflow:visible" :size="getInputSize"/>
     </el-tooltip>
   </div>
 </template>
@@ -14,6 +14,11 @@ export default {
     return {
       openDelay:2000
     }
+  },
+  computed:{
+      getInputSize:function(){
+          return this.nodeName.length+5
+      }
   },
   props:["nodeName","nodeIcon"]
 }
