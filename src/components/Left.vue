@@ -30,6 +30,7 @@
 import TreeNode from './TreeNode'
 import {IsNullOrUndefined} from '../common/common.js'
 import {get} from '../common/http.js'
+import {post} from '../common/http.js'
 import Bus from '../common/bus'
 import { Loading } from 'element-ui';
 import {sleep} from '../common/common.js'
@@ -152,13 +153,17 @@ export default {
               })
               sleep(2000)
               // 发送请求查看所有索引
-              let url = 'http://'+data.value + '/_cat/indices'
+              let url = 'http://'+data.value + '/_cluster/state'
               let that = this
               get(url).then((res)=>{
-                res = res.substring(0,res.length-1)
-                let rrs = res.split('\n')
-                let indexes = rrs.map(function(rr){
-                  let indexName = rr.split(/[\s\t]/)[2]
+                // 获取所有的索引
+                let resIndexNames = Object.keys(res.metadata.indices)
+                // 排序
+                resIndexNames.sort()
+
+                let indexes = resIndexNames.map(function(indexName){
+                  // 将映射信息存入到sessionStorage
+                  // sessionStorage[data.value][indexName] = res.metadata.indices[indexName]
                   let index = { id:that.id++,label: indexName,cvalue:data.value,value:indexName,'type':'index', children: [],"icon":require('../assets/index.png')};
                   return index
                 })
