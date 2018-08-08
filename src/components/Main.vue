@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+   
     <el-tabs v-model="editableTabsValue" type="card" closable @tab-click="tabClick" @edit="handleTabsEdit">
       <el-tab-pane
         :key="item.name"
@@ -8,6 +9,9 @@
         :name="item.name"
       >
         <div style="height:570px;overflow:scroll;padding-right:20px" class="tableDivClass">
+          <textarea class="search">
+            
+          </textarea>
           <el-table
             :data="currentItems"
             style="font-size=12px;"
@@ -202,5 +206,10 @@ export default {
 .headerCell{
   border-top: "1px solid #eee" !important;
 }
-
+.search{
+  height: 100px;
+  width: 100%;
+  border: 1px solid gainsboro;
+  margin-bottom: 10px;
+}
 </style>

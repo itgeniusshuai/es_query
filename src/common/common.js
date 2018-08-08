@@ -24,3 +24,9 @@ export function sleep(numberMillis) {
         }
     } 
 }
+
+export function searchESData(cValue,iValue,dValue,params){
+    let result = {cValue:cValue,iValue:iValue,dValue:dValue,params:params}
+    let esParams = {}
+    return result
+}

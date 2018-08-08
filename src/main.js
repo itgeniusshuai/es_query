@@ -11,7 +11,7 @@ import Axios from 'axios';
 Vue.use(ElementUI);
 Vue.prototype.$axios = Axios
 Vue.use(localStorage)
-
+Vue.use(sessionStorage)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
