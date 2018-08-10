@@ -206,23 +206,28 @@ export function toNiBolan(whereStr){
         
     }
     niBolan = niBolan.map(x => x.trim())
+    niBolan = niBolan.filter(x => x.trim() != '')
     res.niBolan = niBolan
     return res
 }
 
 function niBolanToEsQueryJson(niBolan){
     // 多个空格变成单个
+    let res = {}
     let conditionArr = niBolan.split(/[\s+]/,' ')
     ch = conditionArr.pop()
     let stack = []
+    let lastOperator = ''
     while(ch){
         switch(ch){
             case '&':               
             case '|':
                 stack.push(ch)
+                lastOperator = ch
                 break;
             default:
                 //let subWhere = parseSubWhere(ch)
+                
 
         }
         ch = conditionArr.pop()
