@@ -194,4 +194,25 @@ export function toNiBolan(whereStr){
     return res
 }
 
+function niBolanToEsQueryJson(niBolan){
+    // 多个空格变成单个
+    let conditionArr = niBolan.split(/[\s+]/,' ')
+    ch = conditionArr.pop()
+    let stack = []
+    while(ch){
+        switch(ch){
+            case '&':               
+            case '|':
+                stack.push(ch)
+                break;
+            default:
+                //let subWhere = parseSubWhere(ch)
+                
+        }
+        ch = conditionArr.pop()
+    }
+
+    
+}
+
 
