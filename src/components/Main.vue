@@ -9,9 +9,10 @@
         :name="item.name"
       >
         <div style="height:570px;overflow:scroll;padding-right:20px" class="tableDivClass">
-          <textarea class="search">
+          <textarea class="search" v-model="searchSql">
             
           </textarea>
+          <button @click="search()">查询</button>
           <el-table
             :data="currentItems"
             style="font-size=12px;"
@@ -48,6 +49,7 @@
 import Bus from '../common/bus'
 import {get} from '../common/http.js'
 import { Loading } from 'element-ui';
+import { toNiBolan } from '../common/sqlParse.js';
 
 
 export default {
@@ -70,7 +72,8 @@ export default {
       },
       defaultPageSize:10,
       tabPageInfo:{},
-      tabRelation:{}
+      tabRelation:{},
+      searchSql:""
     }
   },
   mounted:function() {
@@ -80,6 +83,10 @@ export default {
     })
   },
   methods:{
+    search(){
+      let niBolan = toNiBolan(this.searchSql)
+      console.log(niBolan)
+    },
     handleSizeChange(size){
       let tabName = this.editableTabsValue
       let ivalue = this.tabRelation[tabName].ivalue
