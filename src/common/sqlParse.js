@@ -122,22 +122,35 @@ function parseSubWhere(subWhereStr){
 export function toNiBolan(whereStr){
     
     let res = {}
-    let niBolan = ""
+    let niBolan = []
     let stack = []
     // 将每个单独条件作为一个操作数 and/or 作为操作符号／()将and/or替换为&／|
-    whereStr = whereStr.replace(/(and)/,"&")
-    whereStr = whereStr.replace(/(or)/,"|")
+    whereStr = whereStr.replace(/(and)/g,"&")
+    whereStr = whereStr.replace(/(or)/g,"|")
     whereStr += "$"
+    niBolan.push("")
     whereStr = whereStr.split("")
     let ch = whereStr.shift()
     let topCh = ""
+    let lastInCurve = false
+    let inReg = /.*in\s*$/
     while(ch != "$"){
         switch(ch){
             case "(":
+                if(inReg.test(niBolan[niBolan.length - 1])){
+                    niBolan.push(niBolan.pop()+ch)
+                    lastInCurve = true;
+                    break;
+                }
                 stack.push(ch)
                 break;
             case ")":
-                niBolan += " "
+                if(lastInCurve){
+                    niBolan.push(niBolan.pop()+ch)
+                    lastInCurve = false;
+                    break;
+                }
+                niBolan.push("")
                 // 输出直到遇到左括弧，如果棧都为空了还没遇到左括弧，那么格式不对报错
                 if(stack.length == 0){
                     res.errorMsg = "格式不对"
@@ -149,14 +162,13 @@ export function toNiBolan(whereStr){
                         res.errorMsg = "格式不对"
                         return res
                     }
-                    niBolan += topCh
+                    niBolan.push(niBolan.pop()+topCh)
                     topCh = stack.pop()
                 }
-                niBolan += " "
                 break;
             case "&":
             case "|":
-                niBolan += " "
+                niBolan.push("")
                 // 如果棧为空直接入棧
                 if(stack.length == 0){
                     stack.push(ch)
@@ -165,7 +177,10 @@ export function toNiBolan(whereStr){
                 // 如果不为空则比较优先级,如果当前大，入站，否则退棧输出,该情况只有同级直接退棧输出
                 topCh = stack.pop()
                 while( topCh != '('){
-                    niBolan += topCh
+                    niBolan.push(niBolan.pop()+topCh)
+                    if(topCh == '&' || topCh == '|'){
+                        niBolan.push("")
+                    }
                     if(stack.length == 0){
                         break;
                     }
@@ -175,21 +190,22 @@ export function toNiBolan(whereStr){
                     stack.push("(")
                 }
                 stack.push(ch)
-                niBolan += " "
                 break;
             default:
-                niBolan += ch
+                niBolan.push(niBolan.pop()+ch)
 
         }
         ch = whereStr.shift()
     }
     while(stack.length != 0 ){
         ch = stack.pop()
-        niBolan += ch
         if(ch == '&' || ch == '|'){
-            niBolan += ' '
+            niBolan.push("")
         }
+        niBolan.push(niBolan.pop()+ch)
+        
     }
+    niBolan = niBolan.map(x => x.trim())
     res.niBolan = niBolan
     return res
 }
@@ -207,7 +223,7 @@ function niBolanToEsQueryJson(niBolan){
                 break;
             default:
                 //let subWhere = parseSubWhere(ch)
-                
+
         }
         ch = conditionArr.pop()
     }
