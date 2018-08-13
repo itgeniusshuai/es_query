@@ -211,11 +211,12 @@ export function toNiBolan(whereStr){
     return res
 }
 
-function niBolanToEsQueryJson(niBolan){
+export function niBolanToEsQueryJson(niBolan){
     // 多个空格变成单个
     let res = {}
-    let conditionArr = niBolan.split(/[\s+]/,' ')
-    ch = conditionArr.pop()
+    let reg = /[\s+]/
+    niBolan = niBolan.map(x => x.replace(reg,""))
+    ch = conditionArr.shift()
     let stack = []
     let lastOperator = ''
     while(ch){
